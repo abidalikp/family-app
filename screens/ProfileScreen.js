@@ -1,31 +1,58 @@
-import React, {useState, useEffect} from "react"
-import { Text } from "react-native"
-import Profile from "../components/Profile"
-//
-export default function({route}) {
-    const [data, setData] = useState([])
-    const {member} = route.params
-    const getData = async() => {
-        try {
-            const response = await fetch(
-                `http://192.168.1.7:8000/api/members/${member}`
-            )
-            const json = await response.json()
-            setData(json)
-            console.log(json)
-        } catch (error) {
-            console.log('Get members error: '+error.message)
-        } 
-    } 
+import { 
+    Text,
+    ScrollView,
+    StyleSheet,
+    Image,
+    Dimensions,
+    Pressable,
+} from "react-native"
+import pro_pic from '../assets/pro_pic.jpg'
+import { listProfile } from "../utils"
+import ProfileItem from "../components/ProfileItem"
 
-    useEffect(() => {
-        getData()
-        console.log(data)
-    }, [])
+const width = Dimensions.get('window').width
 
+export default function Profile({member, navigation}) {
+    let partners = listProfile(member.partners, navigation)
+    let children = listProfile(member.children, navigation)
+    let parent = member.parent
+        ? (
+            <Pressable onPress={() => navigation.replace('Profile', {member: member.parent.code})}>
+                <ProfileItem member={member.parent} />
+            </Pressable>
+        )
+        : <></>
     return (
-        <>
-            <Profile member={data} />
-        </>
+        <ScrollView style={styles.container}>
+            { parent }
+            <Text style={styles.headingName}>{member.name}</Text>
+            <Image 
+                source={pro_pic}
+                resizeMode='contain'
+                style={styles.image}/>
+            <Text>{member.code}</Text>
+            <Text>Partner</Text>
+            { partners }
+            <Text>Children</Text>
+            { children }
+        </ScrollView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 10,
+    },
+    image: {
+        height: width,
+        aspectRatio: 1,
+        borderWidth: 1,
+        borderColor: 'black',
+        alignSelf: 'center',
+    },
+    headingName: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    }
+})

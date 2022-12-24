@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from "react"
-import { Text, ScrollView, Button } from "react-native"
+import { Text } from "react-native"
+import ProfileScreen from "../screens/ProfileScreen"
 //
-import {listProfile} from '../utils'
-export default function({navigation}) {
-
+export default function({route, navigation}) {
     const [data, setData] = useState([])
-
+    const {member} = route.params
     const getData = async() => {
         try {
             const response = await fetch(
-                'http://192.168.1.7:8000/api/members'
+                `http://192.168.1.7:8000/api/members/${member}`
             )
             const json = await response.json()
             setData(json)
@@ -21,13 +20,12 @@ export default function({navigation}) {
 
     useEffect(() => {
         getData()
+        // console.log(data)
     }, [])
 
-    let members = listProfile(data, navigation)
-
     return (
-        <ScrollView>
-            { members }
-        </ScrollView>
+        <>
+            <ProfileScreen member={data} navigation={navigation}/>
+        </>
     )
 }

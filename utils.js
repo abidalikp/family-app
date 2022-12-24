@@ -1,11 +1,15 @@
+import { Pressable } from "react-native"
 import ProfileItem from "./components/ProfileItem"
 
-export function listProfile(members) {
-    if (!members) return []
+export function listProfile(members, navigation) {
+    if (!members || !navigation) return []
+    // console.log(navigation.navigate)
     let memberProfiles = []
     members.forEach((member, i) => {
         memberProfiles.push(
-            <ProfileItem member={member} key={i} />
+            <Pressable  key={i} onPress={() => navigation.replace('Profile', {member: member.code})}>
+                <ProfileItem member={member} />
+            </Pressable>
         )
     })
     return memberProfiles
