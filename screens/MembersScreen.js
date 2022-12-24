@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react"
-import { Text, ScrollView } from "react-native"
+import { Text, ScrollView, Pressable } from "react-native"
 //
 import {listProfile} from '../utils'
-export default function() {
+export default function({navigation}) {
 
     const [data, setData] = useState([])
 
@@ -28,6 +28,9 @@ export default function() {
     return (
         <ScrollView>
             <Text>Members</Text>
+            <Pressable onPress={() => navigation.navigate('Profile')}>
+                <Text>Profile</Text>
+            </Pressable>
             { members }
         </ScrollView>
     )
