@@ -1,9 +1,10 @@
 //
+import { Button } from "react-native"
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
+//
 import MembersScreen from "../screens/MembersScreen"
 import ProfileRoute from "../routes/ProfileRoute"
-import { Button } from "react-native"
 //
 Stack = createStackNavigator()
 //
@@ -19,7 +20,11 @@ export default function() {
                     name='Profile' 
                     component={ProfileRoute}
                     options={({navigation}) => ({
-                        headerLeft: () => <Button title="Home" onPress={() => navigation.replace('Members')}/>
+                        headerLeft: () => <Button 
+                            title="Home"
+                            onPress={() => 
+                                navigation.replace('Members')
+                            }/>
                     })} />
             </Stack.Navigator>      
         </NavigationContainer>

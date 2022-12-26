@@ -7,7 +7,6 @@ import pro_pic from '../assets/pro_pic.jpg'
 
 // render fun
 export default function ProfileItem({member}) {
-
     return (
         <View style={styles.container}>
                 <Image source={pro_pic} style={styles.propic} resizeMode='contain'/>
