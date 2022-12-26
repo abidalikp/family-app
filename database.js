@@ -11,6 +11,13 @@ export async function createTable() {
             tx.executeSql(
                 'create table if not exists partners (member text, profile text)'
             )
+            // tx.executeSql(
+            //     'delete from profiles'
+            // )
+            // tx.executeSql(
+            //     'delete from partners'
+            // )
+            // console.log('hai')
         },
         reject,
         resolve
@@ -68,32 +75,32 @@ export function getMember(code) {
     })
 }
 
-// export function getChildren(code) {
-//     return new Promise((resolve) => {
-//         db.transaction(tx => {
-//             tx.executeSql(
-//                 'select code, name from profiles where parent=?', [code],
-//                 (_, {rows}) => {
-//                     resolve(rows._array)
-//                 }
-//             )
-//         }, (error) => {
-//             console.log('getChildren err: '+error.message)
-//         })
-//     })
-// }
+export function getChildren(code) {
+    return new Promise((resolve) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                'select code, name from profiles where parent=?', [code],
+                (_, {rows}) => {
+                    resolve(rows._array)
+                }
+            )
+        }, (error) => {
+            console.log('getChildren err: '+error.message)
+        })
+    })
+}
 
-// export function getPartners(code) {
-//     return new Promise((resolve) => {
-//         db.transaction(tx => {
-//             tx.executeSql(
-//                 'select name, code from profiles where code=(select code from partners where member=?)', [code],
-//                 (_, {rows}) => {
-//                     resolve(rows._array.map(partner => partner.profile))
-//                 }
-//             )
-//         }, (error) => {
-//             console.log('getPartners err: '+error.message)
-//         })
-//     })
-// }
+export function getPartners(code) {
+    return new Promise((resolve) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                'select name, code from profiles where code=(select profile from partners where member=?)', [code],
+                (_, {rows}) => {
+                    resolve(rows._array)
+                }
+            )
+        }, (error) => {
+            console.log('getPartners err: '+error.message)
+        })
+    })
+}

@@ -29,18 +29,16 @@ export default function({navigation}) {
     useEffect(() => {
         ( async () => {
             try {
-                // console.log('before')
                 await createTable()
-                console.log('after')
                 let members = await getMembers()
                 if (!members.length) {
-                    members = await fetchData('http://192.168.1.9:8000/api/profiles')
+                    const members = await fetchData('http://192.168.1.9:8000/api/profiles')
                     const partners = await fetchData('http://192.168.1.9:8000/api/partners')
                     await saveMembers(members, partners)
                 }
                 setData(members)
             } catch (error) {
-                console.log('eff err: '+error)
+                console.log('useEffect err: '+error)
             }
         })()
     }, [])
