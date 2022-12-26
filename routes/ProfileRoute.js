@@ -3,7 +3,9 @@ import { Text } from "react-native"
 //
 import ProfileScreen from "../screens/ProfileScreen"
 import {
-    getMember
+    getMember,
+    getChildren,
+    getPartners
 } from '../database'
 //
 export default function({route, navigation}) {
@@ -14,7 +16,11 @@ export default function({route, navigation}) {
         ( async() => {
             try {
                 let mem = await getMember(member)
-                // console.log(mem)
+                let children = await getChildren(member)
+                // let partners = await getPartners(member)
+                // console.log(partners)
+                mem.children = children
+                // mem.partners = partners
                 setData(mem)
             } catch (error) {
                 console.log('Get member err: ', error)                

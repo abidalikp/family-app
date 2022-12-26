@@ -12,11 +12,11 @@ export default function({navigation}) {
 
     const [data, setData] = useState([])
 
-    const fetchMembers = async() => {
+    const fetchData = async(URL) => {
         let members = [];
         try {
             const response = await fetch(
-                'http://192.168.1.9:8000/api/profiles'
+                URL
             )
             members = await response.json()
             // console.log(members)
@@ -29,11 +29,14 @@ export default function({navigation}) {
     useEffect(() => {
         ( async () => {
             try {
+                // console.log('before')
                 await createTable()
+                console.log('after')
                 let members = await getMembers()
                 if (!members.length) {
-                    const members = await fetchMembers()
-                    saveMembers(members)
+                    members = await fetchData('http://192.168.1.9:8000/api/profiles')
+                    const partners = await fetchData('http://192.168.1.9:8000/api/partners')
+                    await saveMembers(members, partners)
                 }
                 setData(members)
             } catch (error) {
