@@ -5,7 +5,7 @@ import ProfileScreen from "../screens/ProfileScreen"
 import {
     getMember,
     getChildren,
-    getPartners
+    getPartners,
 } from '../database'
 //
 export default function({route, navigation}) {

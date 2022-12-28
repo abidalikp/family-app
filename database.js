@@ -11,13 +11,6 @@ export async function createTable() {
             tx.executeSql(
                 'create table if not exists partners (member text, profile text)'
             )
-            // tx.executeSql(
-            //     'delete from profiles'
-            // )
-            // tx.executeSql(
-            //     'delete from partners'
-            // )
-            // console.log('hai')
         },
         reject,
         resolve
@@ -94,7 +87,7 @@ export function getPartners(code) {
     return new Promise((resolve) => {
         db.transaction(tx => {
             tx.executeSql(
-                'select name, code from profiles where code=(select profile from partners where member=?)', [code],
+                'select name, code from profiles where code=(select profile from partners where member=? union select member from partners where profile=?)', [code, code],
                 (_, {rows}) => {
                     resolve(rows._array)
                 }

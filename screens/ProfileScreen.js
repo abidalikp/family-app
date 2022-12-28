@@ -42,6 +42,7 @@ export default function Profile({member, navigation}) {
 const styles = StyleSheet.create({
     container: {
         padding: 10,
+        backgroundColor: 'white'
     },
     image: {
         height: width,

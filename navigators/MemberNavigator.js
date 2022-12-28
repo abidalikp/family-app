@@ -13,7 +13,7 @@ export default function() {
         <NavigationContainer>
             <Stack.Navigator
                 initialRouteName='Members'
-                screenOptions={{headerTitleAlign: 'center',}}
+                screenOptions={{headerTitleAlign: 'center'}}
                 >
                 <Stack.Screen name='Members' component={MembersScreen} />
                 <Stack.Screen 
@@ -24,8 +24,10 @@ export default function() {
                             title="Home"
                             onPress={() => 
                                 navigation.replace('Members')
-                            }/>
-                    })} />
+                            }
+                        />
+                    })} 
+                    />
             </Stack.Navigator>      
         </NavigationContainer>
     )

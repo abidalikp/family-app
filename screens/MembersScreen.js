@@ -46,7 +46,7 @@ export default function({navigation}) {
     let members = listProfile(data, navigation)
 
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor: 'white'}}>
             { members }
         </ScrollView>
     )
