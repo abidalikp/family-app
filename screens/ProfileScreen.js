@@ -4,30 +4,26 @@ import {
     StyleSheet,
     Image,
     Dimensions,
-    Pressable,
 } from "react-native"
+import FastImage from "react-native-fast-image"
+//
 import pro_pic from '../assets/pro_pic.jpg'
+import { S3_URL } from "../env"
 import { listProfile } from "../utils"
-import ProfileItem from "../components/ProfileItem"
 
 const width = Dimensions.get('window').width
 
 export default function Profile({member, navigation}) {
     let partners = listProfile(member.partners, navigation)
     let children = listProfile(member.children, navigation)
-    let parent = member.parent
-        ? (
-            <Pressable onPress={() => navigation.replace('Profile', {member: member.parent.code})}>
-                <ProfileItem member={member.parent} />
-            </Pressable>
-        )
-        : <></>
+    let parent = member.parent? listProfile([member.parent], navigation): <></>
+    let image_url = S3_URL+member.code+'.jpeg'
     return (
         <ScrollView style={styles.container}>
             { parent }
             <Text style={styles.headingName}>{member.name}</Text>
-            <Image 
-                source={pro_pic}
+            <FastImage 
+                source={{uri: image_url}}
                 resizeMode='contain'
                 style={styles.image}/>
             <Text>{member.code}</Text>

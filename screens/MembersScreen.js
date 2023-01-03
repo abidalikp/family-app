@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import { ScrollView } from "react-native"
 //
+import { API_URL } from "../env"
 import {
     createTable,
     saveMembers,
@@ -15,9 +16,7 @@ export default function({navigation}) {
     const fetchData = async(URL) => {
         let members = [];
         try {
-            const response = await fetch(
-                URL
-            )
+            const response = await fetch(URL)
             members = await response.json()
             // console.log(members)
         } catch (error) {
@@ -32,8 +31,8 @@ export default function({navigation}) {
                 await createTable()
                 let members = await getMembers()
                 if (!members.length) {
-                    const members = await fetchData('http://192.168.1.9:8000/api/profiles')
-                    const partners = await fetchData('http://192.168.1.9:8000/api/partners')
+                    const members = await fetchData(API_URL+'profiles')
+                    const partners = await fetchData(API_URL+'partners')
                     await saveMembers(members, partners)
                 }
                 setData(members)

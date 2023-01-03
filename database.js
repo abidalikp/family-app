@@ -9,8 +9,14 @@ export async function createTable() {
                 'create table if not exists profiles (code text primary key not null, name text, parent text)'
             )
             tx.executeSql(
-                'create table if not exists partners (member text, profile text)'
+                'create table if not exists partners (member text, profile text primary key not null)'
             )
+            // tx.executeSql(
+            //     'delete from profiles'
+            // )
+            // tx.executeSql(
+            //     'delete from partners'
+            // )
         },
         reject,
         resolve
@@ -57,7 +63,7 @@ export function getMember(code) {
     return new Promise((resolve) => {
         db.transaction(tx => {
             tx.executeSql(
-                'select code, name from profiles where code=?', [code],
+                'select code, name, parent from profiles where code=?', [code],
                 (_, {rows}) => {
                     resolve(rows._array[0])
                 }

@@ -1,6 +1,6 @@
 // import libs
 import * as React from 'react'
-import { Text, View, StyleSheet, Image, Pressable} from 'react-native'
+import { Text, View, StyleSheet, Image} from 'react-native'
 
 // import other
 import pro_pic from '../assets/pro_pic.jpg'

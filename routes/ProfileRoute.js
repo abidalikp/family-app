@@ -18,9 +18,11 @@ export default function({route, navigation}) {
                 let mem = await getMember(member)
                 let children = await getChildren(member)
                 let partners = await getPartners(member)
+                let parent = await getMember(mem.parent)
                 // console.log(partners)
                 mem.children = children
                 mem.partners = partners
+                mem.parent = parent
                 setData(mem)
             } catch (error) {
                 console.log('Get member err: ', error)                
