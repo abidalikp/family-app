@@ -9,7 +9,7 @@ import pro_pic from '../assets/pro_pic.jpg'
 export default function ProfileItem({member}) {
     return (
         <View style={styles.container}>
-                <Image source={pro_pic} style={styles.propic} resizeMode='contain'/>
+                <Image source={{uri: member.image}} style={styles.propic} resizeMode='contain'/>
                 <View style={styles.memDesc}>
                     <Text style={styles.text}>{member.name}</Text>
                     <Text style={styles.text}>{member.code}</Text>

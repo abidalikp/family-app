@@ -6,7 +6,7 @@ export async function createTable() {
     return new Promise((resolve, reject) => {
         db.transaction(tx => {
             tx.executeSql(
-                'create table if not exists profiles (code text primary key not null, name text, parent text)'
+                'create table if not exists profiles (code text primary key not null, name text, parent text, image text)'
             )
             tx.executeSql(
                 'create table if not exists partners (member text, profile text primary key not null)'
@@ -28,7 +28,7 @@ export async function getMembers() {
     return new Promise((resolve) => {
         db.transaction(tx => {
             tx.executeSql(
-                'select code, name from profiles', [], (_, {rows}) => {
+                'select code, name, image from profiles', [], (_, {rows}) => {
                     resolve(rows._array)
                 }
             )
@@ -42,9 +42,9 @@ export async function saveMembers(members, partners=null) {
     return new Promise(() => {
         db.transaction(tx => {
             tx.executeSql(
-                `insert into profiles (code, name, parent) values ${members
+                `insert into profiles (code, name, parent, image) values ${members
                     .map(member => 
-                        `('${member.code}', '${member.name}', '${member.parent}')`
+                        `('${member.code}', '${member.name}', '${member.parent}', '${member.image}')`
                     ).join(', ')
                 }`
             )
@@ -55,6 +55,8 @@ export async function saveMembers(members, partners=null) {
                     ).join(', ')
                 }`
             )
+        }, (error) => {
+            console.log('saveMembers err: '+error.message)
         })
     })
 }
@@ -63,7 +65,7 @@ export function getMember(code) {
     return new Promise((resolve) => {
         db.transaction(tx => {
             tx.executeSql(
-                'select code, name, parent from profiles where code=?', [code],
+                'select code, name, parent, image from profiles where code=?', [code],
                 (_, {rows}) => {
                     resolve(rows._array[0])
                 }
@@ -78,7 +80,7 @@ export function getChildren(code) {
     return new Promise((resolve) => {
         db.transaction(tx => {
             tx.executeSql(
-                'select code, name from profiles where parent=?', [code],
+                'select code, name, image from profiles where parent=?', [code],
                 (_, {rows}) => {
                     resolve(rows._array)
                 }
@@ -93,13 +95,28 @@ export function getPartners(code) {
     return new Promise((resolve) => {
         db.transaction(tx => {
             tx.executeSql(
-                'select name, code from profiles where code=(select profile from partners where member=? union select member from partners where profile=?)', [code, code],
+                'select name, code, image from profiles where code=(select profile from partners where member=? union select member from partners where profile=?)', [code, code],
                 (_, {rows}) => {
                     resolve(rows._array)
                 }
             )
         }, (error) => {
             console.log('getPartners err: '+error.message)
+        })
+    })
+}
+
+export function dropTables() {
+    return new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                'drop table if exists profiles'
+            )
+            tx.executeSql(
+                'drop table if exists partners'
+            )
+        }, (error) => {
+            console.log('dropTables err: '+error.message)
         })
     })
 }

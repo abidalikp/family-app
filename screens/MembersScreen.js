@@ -6,6 +6,7 @@ import {
     createTable,
     saveMembers,
     getMembers,
+    dropTables,
 } from "../database"
 import {listProfile} from '../utils'
 //
@@ -28,12 +29,14 @@ export default function({navigation}) {
     useEffect(() => {
         ( async () => {
             try {
+                // await dropTables()
                 await createTable()
                 let members = await getMembers()
                 if (!members.length) {
                     const members = await fetchData(API_URL+'profiles')
                     const partners = await fetchData(API_URL+'partners')
                     await saveMembers(members, partners)
+                    console.log('hai')
                 }
                 setData(members)
             } catch (error) {

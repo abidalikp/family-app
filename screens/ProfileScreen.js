@@ -14,22 +14,20 @@ import { listProfile } from "../utils"
 const width = Dimensions.get('window').width
 
 export default function Profile({member, navigation}) {
-    let partners = listProfile(member.partners, navigation)
-    let children = listProfile(member.children, navigation)
-    let parent = member.parent? listProfile([member.parent], navigation): <></>
+    let partners = listProfile(member.partners, navigation, 'Partners')
+    let children = listProfile(member.children, navigation, 'Children')
+    let parent = member.parent? listProfile([member.parent], navigation, 'Parent'): <></>
     let image_url = S3_URL+member.code+'.jpeg'
     return (
         <ScrollView style={styles.container}>
             { parent }
             <Text style={styles.headingName}>{member.name}</Text>
-            <FastImage 
+            <Image 
                 source={{uri: image_url}}
                 resizeMode='contain'
                 style={styles.image}/>
             <Text>{member.code}</Text>
-            <Text>Partner</Text>
             { partners }
-            <Text>Children</Text>
             { children }
         </ScrollView>
     )
