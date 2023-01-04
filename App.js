@@ -1,13 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 //
-import MemberNavigator from './navigators/MemberNavigator';
-import MembersScreen from './screens/MembersScreen';
+import RootNavigator from './navigators/RootNavigator';
 //
 export default function App() {
   return (
     <View style={styles.container}>
-      <MemberNavigator />
+      <RootNavigator />
       <StatusBar style="auto" />
     </View>
   );
